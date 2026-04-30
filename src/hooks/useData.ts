@@ -5,8 +5,8 @@ export interface Medicamento {
     id: number
     nombre: string
     descripcion: string
-    precio: number | string
-    stock: number | string
+    precio: number
+    stock: number
     tipo: string
 }
 
