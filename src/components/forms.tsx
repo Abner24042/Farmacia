@@ -1,34 +1,32 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import type { FormEvent } from "react"
 import "./forms.css"
+import type { Medicamento } from "../hooks/useData"
 
-function Formulario({ insertar, actualizar, registroEditando, setRegistroEditando }) {
-    const [nombre, setNombre] = useState(registroEditando ? registroEditando.nombre : "")
-    const [descripcion, setDescripcion] = useState(registroEditando ? registroEditando.descripcion : "")
-    const [precio, setPrecio] = useState(registroEditando ? registroEditando.precio : "")
-    const [stock, setStock] = useState(registroEditando ? registroEditando.stock : "")
-    const [tipo, setTipo] = useState(registroEditando ? registroEditando.tipo : "")
+interface FormularioProps {
+    insertar: (nombre: string, descripcion: string, precio: string, stock: string, tipo: string) => void
+    actualizar: (id: number, nombre: string, descripcion: string, precio: string, stock: string, tipo: string) => void
+    registroEditando: Medicamento | null
+    setRegistroEditando: (registro: Medicamento | null) => void
+}
 
-    useEffect(() => {
-        setNombre(registroEditando ? registroEditando.nombre : "")
-        setDescripcion(registroEditando ? registroEditando.descripcion : "")
-        setPrecio(registroEditando ? registroEditando.precio : "")
-        setStock(registroEditando ? registroEditando.stock : "")
-        setTipo(registroEditando ? registroEditando.tipo : "")
-    }, [registroEditando])
+function Formulario({ insertar, actualizar, registroEditando, setRegistroEditando }: FormularioProps) {
+    const [nombre, setNombre] = useState(registroEditando?.nombre ?? "")
+    const [descripcion, setDescripcion] = useState(registroEditando?.descripcion ?? "")
+    const [precio, setPrecio] = useState(registroEditando ? String(registroEditando.precio) : "")
+    const [stock, setStock] = useState(registroEditando ? String(registroEditando.stock) : "")
+    const [tipo, setTipo] = useState(registroEditando?.tipo ?? "")
 
-    const manejarSubmit = (e) => {
+    const manejarSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         if (registroEditando) {
-            // Si estamos editando, usamos la función actualizar
             actualizar(registroEditando.id, nombre, descripcion, precio, stock, tipo)
-            setRegistroEditando(null) // Quitamos el modo edición
+            setRegistroEditando(null)
         } else {
-            // Si no estamos editando, es un registro nuevo
             insertar(nombre, descripcion, precio, stock, tipo)
         }
 
-        // Limpiamos los inputs
         setNombre('')
         setDescripcion('')
         setPrecio('')
@@ -38,11 +36,6 @@ function Formulario({ insertar, actualizar, registroEditando, setRegistroEditand
 
     const cancelarEdicion = () => {
         setRegistroEditando(null)
-        setNombre('')
-        setDescripcion('')
-        setPrecio('')
-        setStock('')
-        setTipo('')
     }
 
     return (
