@@ -1,0 +1,62 @@
+/* Layout principal: tabla izq | formulario der */
+#root > div {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    grid-template-rows: auto auto 1fr;
+    gap: 0 32px;
+    align-items: start;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Forms wrapper (primer hijo) → columna derecha, todas las filas */
+#root > div > div:first-child {
+    grid-column: 2;
+    grid-row: 1 / 4;
+    position: sticky;
+    top: 32px;
+}
+
+/* Buscador → columna izquierda, fila 1 */
+#root > div > .search-container {
+    grid-column: 1;
+    grid-row: 1;
+    max-width: 100%;
+    padding: 0;
+    margin: 0 0 14px;
+}
+
+/* Filtros → columna izquierda, fila 2 */
+#root > div > .filter-bar {
+    grid-column: 1;
+    grid-row: 2;
+    max-width: 100%;
+    padding: 0;
+    margin: 0 0 20px;
+}
+
+/* Tabla → columna izquierda, fila 3 */
+#root > div > .table-wrapper {
+    grid-column: 1;
+    grid-row: 3;
+    max-width: 100%;
+    margin: 0;
+}
+
+/* Responsive: stack en pantallas chicas */
+@media (max-width: 860px) {
+    #root > div {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    #root > div > div:first-child {
+        grid-column: 1;
+        grid-row: 1;
+        position: static;
+    }
+
+    #root > div > .search-container { grid-column: 1; grid-row: 2; }
+    #root > div > .filter-bar       { grid-column: 1; grid-row: 3; }
+    #root > div > .table-wrapper    { grid-column: 1; grid-row: 4; }
+}

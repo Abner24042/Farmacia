@@ -1,3 +1,4 @@
+import './App.css'
 import Forms from './components/forms'
 import TableList from './components/TableList'
 import useData from './hooks/useData'
